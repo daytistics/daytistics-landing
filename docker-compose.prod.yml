@@ -17,7 +17,7 @@ services:
     image: oven/bun:latest
     working_dir: /app
     command: >
-      /bin/sh -c "bun install &&
+      /bin/sh -c "npm_config_arch=arm64 npm_config_platform=linux npm_config_libc=musl bun install &&
       bun run build &&
       bun run start"
     volumes:
