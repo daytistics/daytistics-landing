@@ -1,0 +1,70 @@
+name: daytistics-landing
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432" # Optional: Entferne dies, wenn du die DB nicht von außen erreichen möchtest.
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  strapi:
+    image: oven/bun:latest
+    working_dir: /app
+    command: >
+      /bin/sh -c "bun install &&
+      bun run build &&
+      bun run start"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "1337:1337" # Optional: Entferne dies, wenn du die API nicht von außen erreichen möchtest.
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${POSTGRES_DB}
+      DATABASE_USERNAME: ${POSTGRES_USER}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      HOST: ${STRAPI_HOST}
+      PORT: ${STRAPI_PORT}
+      APP_KEYS: ${STRAPI_APP_KEYS}
+      API_TOKEN_SALT: ${STRAPI_API_TOKEN_SALT}
+      ADMIN_JWT_SECRET: ${STRAPI_ADMIN_JWT_SECRET}
+      TRANSFER_TOKEN_SALT: ${STRAPI_TRANSFER_TOKEN_SALT}
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  nuxt:
+    image: oven/bun:latest
+    working_dir: /app
+    command: >
+      /bin/sh -c "bun install &&
+      bun run build &&
+      bun .output/server/index.mjs"
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000" # Optional: Entferne dies, wenn du die App nicht von außen erreichen möchtest.
+    depends_on:
+      - strapi
+    environment:
+      MEDIA_ADDRESS: ${NUXT_MEDIA_ADDRESS}
+      API_ADDRESS: ${NUXT_API_ADDRESS}
+      API_KEY: ${NUXT_API_KEY}
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
