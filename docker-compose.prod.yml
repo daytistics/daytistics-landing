@@ -19,8 +19,6 @@ services:
     command: >
       /bin/sh -c "bun install &&
       bun run build &&
-      bun remove sharp &&
-      install --platform=linux --arch=x64 sharp &&
       bun run start"
     volumes:
       - ./backend:/app
