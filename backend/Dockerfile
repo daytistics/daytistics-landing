@@ -7,13 +7,13 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 
 # Install `sharp` with platform-specific options before other dependencies
-RUN npm install sharp@latest --platform=linux --arch=x64 --ignore-scripts --verbose
+RUN yarn add sharp@latest --platform=linux --arch=x64 --ignore-scripts --verbose
 
 # Install other dependencies, bypassing sharp installation during this step
 RUN yarn install --ignore-scripts && yarn cache clean
 
 # Reinstall sharp as a final check
-RUN npm rebuild sharp --platform=linux --arch=x64
+# RUN npm rebuild sharp --platform=linux --arch=x64
 
 # Copy the application files
 COPY . .
