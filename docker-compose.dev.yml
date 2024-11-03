@@ -12,10 +12,10 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   strapi:
-    build:
-      context: ./strapi
-      dockerfile: Dockerfile
+    image: node:20.18.0-bullseye
     restart: unless-stopped
+    working_dir: /app
+    command: ["yarn", "develop"]
     volumes:
       - ./backend:/app
     ports:

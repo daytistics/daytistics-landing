@@ -19,10 +19,8 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     volumes:
-      - ./backend/src:/srv/app/src
-      - ./backend/config:/srv/app/config
-      - ./backend/database:/srv/app/database
-      - ./backend/public:/srv/app/public
+      - backend:/app
+      - /app/node_modules
     ports:
       - "1337:1337"
     environment:
