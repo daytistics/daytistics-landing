@@ -6,9 +6,11 @@ WORKDIR /app
 # Copy package.json to root directory inside Docker container of Strapi app
 COPY package.json .
 
-RUN yarn install
+RUN yarn install --ignore-scripts && \
+    npm install sharp --platform=linux --arch=x64 --verbose
 
 COPY . .
+
 RUN yarn run build
 
 EXPOSE 1337
