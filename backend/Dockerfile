@@ -1,9 +1,4 @@
-FROM node:20.18.0-bullseye
-
-# Install required dependencies for sharp
-RUN apt-get update && apt-get install -y \
-    libvips-dev \
-    && rm -rf /var/lib/apt/lists/*
+FROM node:20.18.0
 
 # Set up the working directory
 WORKDIR /app
@@ -11,20 +6,17 @@ WORKDIR /app
 # Copy package.json and yarn.lock for dependency management
 COPY package.json yarn.lock ./
 
-# Remove any existing sharp installations
-RUN rm -rf node_modules/sharp
+# Install `sharp` with platform-specific options before other dependencies
+RUN yarn add sharp@latest --platform=linux --arch=x64 --ignore-scripts --verbose
 
-# Install dependencies without sharp
-RUN yarn install --ignore-scripts
-
-# Install sharp specifically for linux
-RUN yarn add sharp --platform=linux --arch=x64 --verbose
+# Install other dependencies, bypassing sharp installation during this step
+RUN yarn install --ignore-scripts && yarn cache clean
 
 # Copy the application files
 COPY . .
 
 # Build the Strapi application
-RUN yarn build
+RUN yarn run build
 
 # Expose the Strapi default port
 EXPOSE 1337
