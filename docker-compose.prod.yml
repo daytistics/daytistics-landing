@@ -7,23 +7,24 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "5432:5432" # Optional: Entferne dies, wenn du die DB nicht von außen erreichen möchtest.
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - app-network
 
   strapi:
-    image: oven/bun:latest
-    working_dir: /app
-    command: >
-      /bin/sh -c "npm_config_arch=arm64 npm_config_platform=linux npm_config_libc=musl bun install &&
-      bun run build &&
-      bun run start"
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
     volumes:
-      - ./backend:/app
+      - ./backend/src:/srv/app/src
+      - ./backend/config:/srv/app/config
+      - ./backend/database:/srv/app/database
+      - ./backend/public:/srv/app/public
     ports:
-      - "1337:1337" # Optional: Entferne dies, wenn du die API nicht von außen erreichen möchtest.
+      - "1337:1337"
     environment:
       DATABASE_CLIENT: postgres
       DATABASE_HOST: postgres
@@ -52,7 +53,7 @@ services:
     volumes:
       - ./frontend:/app
     ports:
-      - "3000:3000" # Optional: Entferne dies, wenn du die App nicht von außen erreichen möchtest.
+      - "3000:3000"
     depends_on:
       - strapi
     environment:

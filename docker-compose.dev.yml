@@ -12,9 +12,10 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   strapi:
-    image: oven/bun:latest
-    working_dir: /app
-    command: ["bun", "run", "develop"]
+    build:
+      context: ./strapi
+      dockerfile: Dockerfile
+    restart: unless-stopped
     volumes:
       - ./backend:/app
     ports:
