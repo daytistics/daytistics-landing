@@ -3,24 +3,26 @@ FROM node:20.18.0
 # Set up the working directory
 WORKDIR /app
 
-# Copy the package.json and lock file to root directory for dependency installation
+# Copy package.json and yarn.lock for dependency management
 COPY package.json yarn.lock ./
 
-# Install dependencies except for sharp initially
-RUN yarn install --ignore-scripts && \
-    yarn cache clean
+# Install `sharp` with platform-specific options before other dependencies
+RUN npm install sharp@latest --platform=linux --arch=x64 --ignore-scripts --verbose
 
-# Install sharp independently for the specific platform and architecture
-RUN npm install sharp@latest --platform=linux --arch=x64 --verbose
+# Install other dependencies, bypassing sharp installation during this step
+RUN yarn install --ignore-scripts && yarn cache clean
 
-# Copy the rest of the application files
+# Reinstall sharp as a final check
+RUN npm rebuild sharp --platform=linux --arch=x64
+
+# Copy the application files
 COPY . .
 
 # Build the Strapi application
 RUN yarn run build
 
-# Expose the default Strapi port
+# Expose the Strapi default port
 EXPOSE 1337
 
-# Start Strapi
+# Start the Strapi application
 CMD ["yarn", "start"]
