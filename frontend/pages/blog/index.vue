@@ -74,6 +74,7 @@
                         </NuxtLink>
                     </div>
                 </article>
+                <Adsbygoogle />
             </div>
         </div>
     </section>
@@ -86,7 +87,7 @@ const { data: blogsData, status: blogsStatus } = await useAsyncData(
     "blogs",
     () =>
         $fetch(
-            "/api/blogs?pagination[page]=1&pagination[pageSize]=3&sort=date&populate=*",
+            "/api/cms/blogs?pagination[page]=1&pagination[pageSize]=3&sort=date&populate=*",
             {
                 method: "GET",
             },
@@ -109,7 +110,7 @@ const { data: authorsData, status: authorsStatus } = await useAsyncData(
             }, "")
             .toString();
 
-        return $fetch(`/api/authors/?${filters}&populate=avatar`, {
+        return $fetch(`/api/cms/authors/?${filters}&populate=avatar`, {
             method: "GET",
         });
     },

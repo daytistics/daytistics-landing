@@ -9,11 +9,16 @@
                         Made with ❤️ by <b>Daytistics</b> - &copy; 2024
                         Daytistics
                     </div>
-                    <div class="flex justify-center md:justify-start">
+                    <div class="flex justify-center md:justify-start gap-3">
                         <NuxtLink
                             to="/legal/imprint"
                             class="text-primary hover:text-primary-dark"
                             >Imprint</NuxtLink
+                        >
+                        <NuxtLink
+                            to="/legal/privacy"
+                            class="text-primary hover:text-primary-dark"
+                            >Privacy</NuxtLink
                         >
                     </div>
                 </div>

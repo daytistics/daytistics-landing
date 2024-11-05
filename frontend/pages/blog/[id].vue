@@ -45,6 +45,7 @@
                     <h2 class="text-lg">{{ blog.preview }}</h2>
                 </header>
                 <div v-html="marked.parse(blog.entry)" class="prose"></div>
+                <Adsbygoogle />
             </article>
         </div>
     </main>
@@ -67,7 +68,7 @@ const {
     error: blogError,
     status: blogStatus,
 } = await useAsyncData("blog", () =>
-    $fetch(`/api/blogs/${id}?populate=author`, {
+    $fetch(`/api/cms/blogs/${id}?populate=author`, {
         method: "GET",
     }),
 );
@@ -84,7 +85,7 @@ if (blogData.value && blogData.value.data) {
         status: authorStatus,
     } = await useAsyncData("author", () =>
         $fetch(
-            `/api/authors/${blog.value?.author.documentId}?populate=avatar`,
+            `/api/cms/authors/${blog.value?.author.documentId}?populate=avatar`,
             {
                 method: "GET",
             },

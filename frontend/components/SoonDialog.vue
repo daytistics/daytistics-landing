@@ -65,7 +65,7 @@ function useForm() {
     const email = ref<string>("");
 
     const submit = async () => {
-        await $fetch("/api/newsletter-registrations", {
+        await $fetch("/api/cms//newsletter-registrations", {
             method: "POST",
             body: {
                 data: {

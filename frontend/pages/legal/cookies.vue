@@ -1,4 +1,6 @@
-<template>Our cookies</template>
+<template>
+    <div v-html="imprint" class="prose"></div>
+</template>
 
 <script setup lang="ts">
 import { parse } from "marked";

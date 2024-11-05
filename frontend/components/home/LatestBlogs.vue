@@ -44,9 +44,12 @@ import { Eye } from "lucide-vue-next";
 import type { Blog } from "~/types/blog-types";
 
 const { data, status } = await useAsyncData("blogs", () =>
-    $fetch("/api/blogs?pagination[page]=1&pagination[pageSize]=3&sort=date", {
-        method: "GET",
-    }),
+    $fetch(
+        "/api/cms/blogs?pagination[page]=1&pagination[pageSize]=3&sort=date",
+        {
+            method: "GET",
+        },
+    ),
 );
 
 const latestBlogs = computed(() => data.value?.data ?? []);

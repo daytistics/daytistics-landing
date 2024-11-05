@@ -48,7 +48,7 @@
                         <button
                             type="button"
                             class="button"
-                            @click="comingSoonModalOpen = true"
+                            @click="openComingSoonModal"
                         >
                             Application
                         </button>
@@ -60,17 +60,19 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
-
 const router = useRouter();
 
 const isRoot = ref(false);
 const comingSoonModalOpen = ref<boolean>(false);
 
 function openComingSoonModal() {
+    console.log("openComingSoonModal");
     comingSoonModalOpen.value = true;
-    umTrackEvent("application-button-clicked");
+    // @ts-ignore
+    umami.track("application-button-clicked");
+    useTrackEvent("application-button-clicked", {
+        method: "Google",
+    });
 }
 
 onMounted(() => {
