@@ -7,9 +7,9 @@ export default defineEventHandler(async (event) => {
 
   const headers = {
     ...Object.fromEntries(
-      Object.entries(event.headers).filter(([key]) => key !== "host")
+      Object.entries(event.headers).filter(([key]) => key !== "host"),
     ),
-    Authorization: `Bearer d18922a728b17b2f4ede7d38d83380c008767d0e5f9edd77fd53219da1e2ec4f5df39c4d4f1e526a55ff06fc8c43764fb77cda51a875c74f0a7dedc5a67e334c876199b55a24fc0ef636b30085e6923452235ca4b18bafda71d2533081c9bd3ef7fabf0f07a85ae026a1d40d0834ab7623640ca7745bc46f8a80ea6be2b2a039`,
+    Authorization: `Bearer 47a8a0443143fc4d4c498a8a353866322e5a5dec82e4531c845c0aa356ab7050cbda57cbbf9642444ba90811f4a0f01e5113082e07c97b2d10596aa1f54f1e34fe21bfd1407ba67a2af458c1f57055ef4732a1f57d7218af30f3774376a46a9e47c11d5a32d1ca062073ccad0270c65065d8d2cdcff50edeadc7f1fca3147f0e`,
   };
 
   // proxy it!

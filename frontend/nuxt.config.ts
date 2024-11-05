@@ -1,9 +1,9 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt"],
+  modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "nuxt-umami"],
 
+  // NUXT CONFIG
   runtimeConfig: {
     apiKey: process.env.API_KEY,
     apiAddress: process.env.API_ADDRESS,
@@ -22,4 +22,11 @@ export default defineNuxtConfig({
     },
   },
   css: ["~/assets/css/fonts.css", "~/assets/css/tailwind.css"],
+
+  // UMAMI CONFIG
+  umami: {
+    id: "9027f875-0244-4b7f-b298-6748df4fffb3",
+    host: "http://localhost:8000/",
+    autoTrack: true,
+  },
 });

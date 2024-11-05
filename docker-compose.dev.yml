@@ -12,12 +12,16 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   strapi:
-    image: node:20.18.0-bullseye
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
     restart: unless-stopped
-    working_dir: /app
-    command: ["yarn", "develop"]
     volumes:
-      - ./backend:/app
+      - ./backend/src:/srv/app/src
+      - ./backend/config:/srv/app/config
+      - ./backend/database:/srv/app/database
+      - ./backend/public:/srv/app/public
+      - ./backend/node_modules:/srv/app/node_modules
     ports:
       - "1337:1337"
     environment:
@@ -33,7 +37,6 @@ services:
       API_TOKEN_SALT: "Aa21ijvbCb7AB9ZMnR/kvg=="
       ADMIN_JWT_SECRET: "kb+yZmuorf3RjBbf1ivrUQ=="
       TRANSFER_TOKEN_SALT: "YYz82YdLXLEnHelkvB1YMQ=="
-
     depends_on:
       - postgres
 

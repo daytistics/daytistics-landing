@@ -16,7 +16,7 @@ services:
   strapi:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     restart: unless-stopped
     volumes:
       - ./backend/src:/srv/app/src
